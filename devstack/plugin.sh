@@ -106,6 +106,7 @@ MON_API_GATE_CONFIGURATION_DIR=/etc/monasca-api
 
 function pre_install_monasca {
     echo_summary "Pre-Installing Monasca Components"
+    #sed -i -e '/root\s*ALL=(ALL:ALL)/a mon-agent    ALL=NOPASSWD: /opt/monasca-agent/bin/python /opt/stack/monasca-agent/monasca_agent/collector/checks_d/process.py *' /etc/sudoers
     find_nearest_apache_mirror
     install_gate_config_holder
     install_kafka
@@ -1264,7 +1265,7 @@ function init_monasca_grafana {
     sudo chown -R root:root "${DASHBOARDS_DIR}"
     sudo chmod -R 0644 "${DASHBOARDS_DIR}"
 
-    sudo python "${MONASCA_API_DIR}"/devstack/files/grafana/grafana-init.py
+    #sudo python "${MONASCA_API_DIR}"/devstack/files/grafana/grafana-init.py
 
     sudo rm -rf "${DASHBOARDS_DIR}"
 }
@@ -1449,11 +1450,11 @@ function find_nearest_apache_mirror {
 function init_collector_service {
     if is_service_enabled monasca-agent; then
         echo_summary "Init Monasca collector service"
-        sudo systemctl stop monasca-collector
-        sudo sed -i "s/User=mon-agent/User=root/g" /etc/systemd/system/monasca-collector.service
-        sudo sed -i "s/Group=mon-agent/Group=root/g" /etc/systemd/system/monasca-collector.service
-        sudo systemctl daemon-reload
-        sudo systemctl restart monasca-collector
+        #sudo systemctl stop monasca-collector
+        #sudo sed -i "s/User=mon-agent/User=root/g" /etc/systemd/system/monasca-collector.service
+        #sudo sed -i "s/Group=mon-agent/Group=root/g" /etc/systemd/system/monasca-collector.service
+        #sudo systemctl daemon-reload
+        #sudo systemctl restart monasca-collector
     fi
 }
 
